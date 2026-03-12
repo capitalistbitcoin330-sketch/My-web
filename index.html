@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image to PNG Converter</title>
+</head>
+<body>
+
+<h2>Image to PNG Converter</h2>
+
+<input type="file" id="upload" accept="image/*">
+<br><br>
+<button onclick="convert()">Convert to PNG</button>
+<br><br>
+
+<canvas id="canvas" style="display:none;"></canvas>
+<a id="download" style="display:none;">Download PNG</a>
+
+<script>
+function convert() {
+  const file = document.getElementById("upload").files[0];
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const img = new Image();
+
+  img.onload = function() {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+
+    const link = document.getElementById("download");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "converted.png";
+    link.innerHTML = "Download PNG";
+    link.style.display = "block";
+  };
+
+  img.src = URL.createObjectURL(file);
+}
+</script>
+
+</body>
+</html>
